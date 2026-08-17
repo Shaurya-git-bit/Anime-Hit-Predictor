@@ -7,9 +7,11 @@ Kokushibo's my favorite Demon Slayer character and yeah I know this has nothing 
 
 ## What this is
 
-A model that predicts whether an anime will become a "breakout hit" **before it even airs**, using studio history, director track record, genres, tags, source material, and release timing. Trained on anime from 2000-2024.
+A model that predicts whether an anime will become a "breakout hit" before it even airs, using studio history, director track record, genres, tags, source material, and release timing. Trained on anime from 2000-2021, validated on 2022 to tune hyperparameters, then tested on 2023-2024 data the model never touched during training or tuning.
 
-Not a toy notebook. Time-based splits, hyperparameter tuning, SHAP explainability, and I stress-tested it against real 2025 anime the model never saw during training.
+But held-out test data is still just numbers on a spreadsheet. So I went further and threw the finished model at real 2025 anime, shows that didn't exist in the dataset at all, and checked if it actually called things right in reality. It got 4 out of 5 correct, correctly flagging Dororo and Orb as hits and BanG Dream and One-Punch Man Season 3 as flops, months before most fans had made up their minds either way. The one miss, Lazarus, well it got a mix of positive & negative from critiques, so.........IDK
+
+Time-based splits, hyperparameter tuning, SHAP explainability, and I stress-tested it against real 2025 anime the model never saw during training.
 
 ## Why this isn't just a random classifier
 
@@ -71,6 +73,8 @@ Ran the trained model on actual 2025 anime it never trained on:
 | One-Punch Man S3 | Not Hit | 44.08% | ✅ Flop |
 
 **4/5 correct.** Lazarus is the interesting miss, it got great critical scores but never became a true breakout, showing the model's limits when a show is "good" but not "phenomenon" level.
+
+Worth noting: both clean hits (Dororo, Orb) scored 90%+ confidence, while Lazarus, the one with a genuinely mixed real-world reception, came in lower at 83%. Might just be 2 data points, but it hints the model's probability score isn't just "hit or not," it's picking up on how big a hit something is.
 
 ## Setup
 
