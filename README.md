@@ -52,6 +52,12 @@ Random baseline PR-AUC here is 0.185 (only ~18% of test anime are actual hits), 
 
 *Top 10 studios by breakout hit rate. Big names like Kyoto Animation and ufotable don't always win, smaller studios like Studio Bind and Orange top the list.*
 
+## Why I tuned it this way
+
+I deliberately made the model cautious about saying "yes, this will be a hit." In the real world, if you greenlight a show expecting it to be huge and it flops, that's an expensive mistake, wasted budget, wasted production time, wasted marketing. But if the model passes on a show that turns out to be a hit anyway, that's a smaller loss, you just miss an opportunity, you don't lose money you already spent.
+
+So I tuned the model to only say "Hit" when it's really confident, even if that means it misses some actual hits along the way. Better to be picky and right than aggressive and wrong.
+
 ## Real-world validation (the fun part)
 
 Ran the trained model on actual 2025 anime it never trained on:
