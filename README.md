@@ -13,6 +13,27 @@ But held-out test data is still just numbers on a spreadsheet. So I went further
 
 Time-based splits, hyperparameter tuning, SHAP explainability, and I stress-tested it against real 2025 anime the model never saw during training.
 
+## Real-world validation (the fun part)
+
+Ran the trained model on actual 2025 anime it never trained on:
+
+| Anime | Prediction | Probability | Actual |
+|---|---|---|---|
+| Dororo | Hit | 97.58% | ✅ Hit |
+| Orb: On the Movements of the Earth | Hit | 90.77% | ✅ Hit |
+| Lazarus | Hit | 83.31% | ⚠️ Mixed (91% RT score, but mixed fan reception) |
+| BanG Dream! Ave Mujica | Not Hit | 26.06% | ✅ Flop |
+| One-Punch Man S3 | Not Hit | 44.08% | ✅ Flop |
+
+**4/5 correct.** Lazarus is the interesting one, it got great critical scores but never became a true breakout hit
+
+But but..........
+
+My model predicted it with 83% probabilty that it would be breakout hit, & 0.78 was the threshold. And in real life, Lazarus wasn't a breakout hit but just near hit. 
+My model predicted all the breakout hits with probabilty of 90% and above, & for LAzarus which was just hit, it's probabilty was much lower. That might mean my model actually predicts **how much hit/ flop an upcoming anime could be**, not just breakout hit or flop
+
+Worth noting: both clean hits (Dororo, Orb) scored 90%+ confidence, while Lazarus, the one with a genuinely mixed real-world reception, came in lower at 83%. Might just be 2 data points, but it hints the model's probability score isn't just "hit or not," it's picking up on how big a hit something is.
+
 ## Why this isn't just a random classifier
 
 - Split by **year**, not randomly (train ≤2021, val=2022, test ≥2023). Random splits leak future info and make models look better than they are.
@@ -59,22 +80,6 @@ Random baseline PR-AUC here is 0.185 (only ~18% of test anime are actual hits), 
 I deliberately made the model cautious about saying "yes, this will be a hit." In the real world, if you greenlight a show expecting it to be huge and it flops, that's an expensive mistake, wasted budget, wasted production time, wasted marketing. But if the model passes on a show that turns out to be a hit anyway, that's a smaller loss, you just miss an opportunity, you don't lose money you already spent.
 
 So I tuned the model to only say "Hit" when it's really confident, even if that means it misses some actual hits along the way. Better to be picky and right than aggressive and wrong.
-
-## Real-world validation (the fun part)
-
-Ran the trained model on actual 2025 anime it never trained on:
-
-| Anime | Prediction | Probability | Actual |
-|---|---|---|---|
-| Dororo | Hit | 97.58% | ✅ Hit |
-| Orb: On the Movements of the Earth | Hit | 90.77% | ✅ Hit |
-| Lazarus | Hit | 83.31% | ⚠️ Mixed (91% RT score, but mixed fan reception) |
-| BanG Dream! Ave Mujica | Not Hit | 26.06% | ✅ Flop |
-| One-Punch Man S3 | Not Hit | 44.08% | ✅ Flop |
-
-**4/5 correct.** Lazarus is the interesting miss, it got great critical scores but never became a true breakout, showing the model's limits when a show is "good" but not "phenomenon" level.
-
-Worth noting: both clean hits (Dororo, Orb) scored 90%+ confidence, while Lazarus, the one with a genuinely mixed real-world reception, came in lower at 83%. Might just be 2 data points, but it hints the model's probability score isn't just "hit or not," it's picking up on how big a hit something is.
 
 ## Setup
 
